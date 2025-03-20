@@ -21,7 +21,7 @@
 
 #include "esphome.h"
 
-#define BUF_SIZE 2500
+#define BUF_SIZE 10500
 #define WAIT_TIME 1
 
 byte data_cmd[] = { 
