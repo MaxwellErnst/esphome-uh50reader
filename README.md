@@ -2,17 +2,20 @@
 ESPHome custom component for communicating with Landis+Gyr T550 (UH50) heat/cold meters and reading usage data. The UH50 meter communicates over an optical interface using the standardized IEC 62056-21 protocol. If the meter is battery powered, each request for data will drain the battery life. 
 
 ## ESPHome version
-The current version in main is tested with ESPHome version `2022.12.6`. Make sure your ESPHome version is up to date if you experience compile problems.
+The current version in main is tested with ESPHome version `2025.2.2`. Make sure your ESPHome version is up to date if you experience compile problems.
 
 ## Hardware
-The optical eye hardware I'm using was ordered as a kit from here: https://wiki.hal9k.dk/projects/kamstrup, they no longer sell kits but provide all the necessary information for printing the enclosure as well as PCB schematics and component list. This optical eye is then connected to a NodeMCU ESP-controller with the RX pin connected to the RX pin (GPIO3) on the NodeMCU and the TX pin connected to the D4 pin (GPIO2) on the NodeMCU.
+The optical eye hardware I'm using was ordered from here https://www.aliexpress.com/item/1005005206147556.html?spm=a2g0o.productlist.main.19.518a609aIFHYW8&algo_pvid=0e6afd1c-6482-4cc7-91d2-8b25f4c646bd&algo_exp_id=0e6afd1c-6482-4cc7-91d2-8b25f4c646bd-9&pdp_ext_f=%7B%22order%22%3A%226%22%2C%22eval%22%3A%221%22%7D&pdp_npi=4%40dis%21SEK%21274.82%21274.82%21%21%21192.36%21192.36%21%40211b80d117419017804413989e593e%2112000032158161996%21sea%21SE%210%21ABX&curPageLogUid=69DZwhRRr4yO&utparam-url=scene%3Asearch%7Cquery_from%3A
+TTL IR infra-red light IEC1107 DLMS bi-directional communication kWh meter electricity and gas tariff meters TTL Optical Probe
+
+This optical eye is then connected to a NodeMCU ESP-controller with the RX pin connected to the RX pin (GPIO3) on the NodeMCU and the TX pin connected to the D4 pin (GPI17) on the ESP32.
 
 ### UART
-Since the protocol requires outgoing communication (TX) using 300 baud and the incoming communication (RX) using 2400 baud, both hardware UARTs on the NodeMCU are used. Other ESP8266 based controllers will work as well, but make sure that the controller support two hardware UARTs and check which pins they are located at.
+Since the protocol requires outgoing communication (TX) using 300 baud and the incoming communication (RX) using 2400 baud, both hardware UARTs on the ESP32 are used. ESP8266 based controllers wont work with this buffersize. 
 
 ### Parts
 - 1 Optical eye, see recommendation above
-- 1 ESP12 NodeMCU
+- 1 ESP32 
 - 1 Wires
 - Wall plug and USB cable to power the NodeMCU
 
@@ -24,6 +27,7 @@ wifi_password: <your wifi password>
 fallback_password: <fallback AP password>
 hass_api_password: <the Home Assistant API password>
 ota_password: <The OTA password>
+encryption_key: <Your Encryption Key>
 ```
 Make sure to place the `secrets.yaml` file in the root path of the cloned project. The `fallback_password` and `ota_password` fields can be set to any password before doing the initial upload of the firmware.
 
