@@ -1,8 +1,10 @@
 # esphome-uh50reader
 ESPHome custom component for communicating with Landis+Gyr T550 (UH50) heat/cold meters and reading usage data. The UH50 meter communicates over an optical interface using the standardized IEC 62056-21 protocol. If the meter is battery powered, each request for data will drain the battery life. 
 
+The difference from orignialk is that this use esp32 insteed and that it reads more buffer due to some meters have a lot of garbage.
+
 ## ESPHome version
-The current version in main is tested with ESPHome version `2025.2.2`. Make sure your ESPHome version is up to date if you experience compile problems.
+The current version in main is tested with ESPHome version `2024.2.0`. Make sure your ESPHome version is up to date if you experience compile problems. Not to new will work either.
 
 ## Hardware
 The optical eye hardware I'm using was ordered from here https://www.aliexpress.com/item/1005005206147556.html?spm=a2g0o.productlist.main.19.518a609aIFHYW8&algo_pvid=0e6afd1c-6482-4cc7-91d2-8b25f4c646bd&algo_exp_id=0e6afd1c-6482-4cc7-91d2-8b25f4c646bd-9&pdp_ext_f=%7B%22order%22%3A%226%22%2C%22eval%22%3A%221%22%7D&pdp_npi=4%40dis%21SEK%21274.82%21274.82%21%21%21192.36%21192.36%21%40211b80d117419017804413989e593e%2112000032158161996%21sea%21SE%210%21ABX&curPageLogUid=69DZwhRRr4yO&utparam-url=scene%3Asearch%7Cquery_from%3A
