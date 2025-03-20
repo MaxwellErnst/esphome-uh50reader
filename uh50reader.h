@@ -107,30 +107,39 @@ class UH50Reader : public Component, public UARTDevice, public CustomAPIDevice {
       ESP_LOGI("cmd", "data cmd sent");
     }
 
-    void readTelegram() {
-      OBISData obisdata[MAX_OBIS_CODES];
-      
-      bool publish=false;
-      // fast forward until we find the STX byte (start-of-text)
-      byte b = 0x00;
-      while (available() && b != 0x02) {
+   void readTelegram() {
+    OBISData obisdata[MAX_OBIS_CODES];
+    
+    bool publish = false;
+    byte b = 0x00;
+    int total_bytes_read = 0;  // Variable to track total bytes read
+    
+    // Fast forward until we find the STX byte (start-of-text)
+    while (available() && b != 0x02) {
         b = read();
-      }
+    }
 
-      while (int len = available()) {
+    while (int len = available()) {
+        total_bytes_read += len;  // Add the number of bytes read in each loop iteration
+
         ESP_LOGD("readTelegram", "Got %d bytes available to read", len);
-        if (!read_array((uint8_t *) buffer, len))
-               ESP_LOGW("readTelegram", "read_array() returned false, meter reading may be incomplete");
+        
+        if (!read_array((uint8_t *) buffer, len)) {
+            ESP_LOGW("readTelegram", "read_array() returned false, meter reading may be incomplete");
+        }
         ESP_LOGD("readTelegram", "Read %s", buffer);
 
-	int count;
-	parse_obis(buffer, obisdata, &count);
-	print_parsed_data(obisdata, count);
+        int count;
+        parse_obis(buffer, obisdata, &count);
+        print_parsed_data(obisdata, count);
         publishSensors(obisdata, count);
 
-        // clean buffer
+        // Clean buffer
         memset(buffer, 0, BUF_SIZE - 1);
-
-      }
     }
+
+    // Log the total number of bytes read
+    ESP_LOGI("readTelegram", "Total bytes read in this session: %d", total_bytes_read);
+}
+
 };
