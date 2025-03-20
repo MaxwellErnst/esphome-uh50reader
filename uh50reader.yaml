@@ -1,8 +1,7 @@
 esphome:
   name: esp-uh50reader
-  platform: ESP8266
-  #board d1_mini also works (wemos d1 mini)
-  board: nodemcu 
+  platform: Esp32
+  board: esp32dev 
   includes:
     - obis.h
     - uh50reader.h
@@ -37,18 +36,19 @@ ota:
 
 uart:
   - id: uart_in
-    rx_pin: RX
+    rx_pin: GPIO3
     baud_rate: 2400
     data_bits: 7
     parity: EVEN
     stop_bits: 2
-    rx_buffer_size: 2048
+    rx_buffer_size: 10240
   - id: uart_out
-    tx_pin: D4
+    tx_pin: GPIO17
     baud_rate: 300
     data_bits: 7
     parity: EVEN
     stop_bits: 2
+  
   
 sensor:
   - platform: custom
